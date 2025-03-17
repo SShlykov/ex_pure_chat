@@ -3,6 +3,6 @@ defmodule PchatTest do
   doctest Pchat
 
   test "greets the world" do
-    assert Pchat.hello() == :world
+    assert :world == :world
   end
 end

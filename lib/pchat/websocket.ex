@@ -9,10 +9,10 @@ defmodule Pchat.WebSocketHandler do
   end
 
   @impl true
-  def websocket_init(state) do
+  def websocket_init(_) do
     Registry.register(Pchat.Registry, "chat", {})
 
-    {:ok, state}
+    {:ok, %{}}
   end
 
   @impl true
@@ -26,16 +26,17 @@ defmodule Pchat.WebSocketHandler do
 
     case handle_message(data, state) do
       {:error, message} ->
-        {:reply, message, state}
+        {:reply, {:text, message}, state}
 
       {:reply, res, state} ->
-        {:reply, res, state}
+        {:reply, {:text, res}, state}
 
       {:noreply, _} ->
         {:ok, state}
     end
   rescue
-    _ -> {:reply, "Нечитаемое сообщение", state}
+    _ ->
+      {:reply, {:text, "Нечитаемое сообщение"}, state}
   end
 
   @impl true
@@ -62,7 +63,7 @@ defmodule Pchat.WebSocketHandler do
   defp handle_message(%{"type" => "message", "content" => content}, state) do
     case Map.get(state, :username) do
       nil ->
-        {:reply, {:text, Jason.encode!(%{error: "сначала присоединись к каналу"})}}
+        {:reply, Jason.encode!(%{error: "сначала присоединись к каналу"}), state}
 
       username ->
         Pchat.ChatRoom.send_message(username, content)

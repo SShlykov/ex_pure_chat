@@ -57,7 +57,9 @@ defmodule Pchat.ChatRoom do
       timestamp: DateTime.utc_now() |> DateTime.to_string()
     }
 
-    Logger.info("пользователь написал сообщение: user - #{username}; message - #{message}")
+    Logger.info(
+      "пользователь написал сообщение: user - #{username}; message - #{inspect(message)}"
+    )
 
     messages = [message | state.messages] |> Enum.take(100)
 
@@ -86,7 +88,7 @@ defmodule Pchat.ChatRoom do
   end
 
   @impl true
-  def handle_info({:DOWN, _red, :proccess, pid, _reason}, state) do
+  def handle_info({:DOWN, _red, :process, pid, _reason}, state) do
     handle_cast({:leave, pid}, state)
   end
 
