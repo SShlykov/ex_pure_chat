@@ -1,0 +1,11 @@
+{application,pchat,
+             [{modules,['Elixir.Pchat','Elixir.Pchat.Application',
+                        'Elixir.Pchat.ChatRoom','Elixir.Pchat.Router',
+                        'Elixir.Pchat.WebSocketHandler']},
+              {optional_applications,[]},
+              {applications,[kernel,stdlib,elixir,logger,cowboy,plug_cowboy,
+                             jason]},
+              {description,"pchat"},
+              {registered,[]},
+              {vsn,"0.1.0"},
+              {mod,{'Elixir.Pchat.Application',[]}}]}.
