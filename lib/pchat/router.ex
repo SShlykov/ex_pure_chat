@@ -10,8 +10,6 @@ defmodule Pchat.Router do
   plug(Plug.Parsers, parsers: [:json], json_decoder: Jason)
 
   get "/" do
-    Logger.info("123")
-
     conn
     |> put_resp_content_type("text/html")
     |> send_file(200, "priv/static/index.html")
